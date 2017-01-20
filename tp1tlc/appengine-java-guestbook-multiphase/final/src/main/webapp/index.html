@@ -1,19 +1,3 @@
-<%-- //[START all]--%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.google.appengine.api.users.User" %>
-<%@ page import="com.google.appengine.api.users.UserService" %>
-<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
-
-<%-- //[START imports]--%>
-<%@ page import="com.example.advertisement.Advertisement" %>
-<%@ page import="com.example.advertisement.Board" %>
-<%@ page import="com.googlecode.objectify.Key" %>
-<%@ page import="com.googlecode.objectify.ObjectifyService" %>
-<%-- //[END imports]--%>
-
-<%@ page import="java.util.List" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +15,7 @@
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
+
 <body id="page-top" class="index">
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -61,83 +46,13 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- Header -->
     <header>
         <div class="container">
-<%
-    String boardName = request.getParameter("boardName");
-    if (boardName == null) {
-        boardName = "default";
-    }
-    pageContext.setAttribute("boardName", boardName);
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-        pageContext.setAttribute("user", user);
-%>
+        </div>
+    </header>
 
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-<%
-    } else {
-%>
-<div id="main" class="container" role="main">
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-</p>
-<%
-    }
-%>
-
-<%-- //[START datastore]--%>
-<%
-    // Create the correct Ancestor key
-      Key<Board> board = Key.create(Board.class, boardName);
-
-    // Run an ancestor query to ensure we see the most up-to-date
-    // view of the Advertisements belonging to the selected Board.
-      List<Advertisement> advertisements = ObjectifyService.ofy()
-          .load()
-          .type(Advertisement.class) // We want only Advertisements
-          .ancestor(board)    // Anyone in this board
-          .order("-date")       // Most recent first - date is indexed.
-          .limit(5)             // Only show 5 of them.
-          .list();
-
-    if (advertisements.isEmpty()) {
-%>
-<p>Board '${fn:escapeXml(boardName)}' has no advertisement.</p>
-<%
-    } else {
-%>
-<p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
-<%
-      // Look at all of our greetings
-        for (Advertisement advertisement : advertisements) {
-            pageContext.setAttribute("advertisement_title", advertisement.getTitle());
-            pageContext.setAttribute("advertisement_price", advertisement.getPrice());
-            pageContext.setAttribute("advertisement_date", advertisement.getDate());
-            String author;
-            if (advertisement.author_email == null) {
-                author = "An anonymous person";
-            } else {
-                author = advertisement.author_email;
-                String author_id = advertisement.author_id;
-                if (user != null && user.getUserId().equals(author_id)) {
-                    author += " (You)";
-                }
-            }
-            pageContext.setAttribute("advertisement_user", author);
-%>
-<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
-<blockquote>${fn:escapeXml(advertisement_title)}</blockquote>
-<blockquote>${fn:escapeXml(advertisement_price)}</blockquote>
-<blockquote>${fn:escapeXml(advertisement_date)}</blockquote>
-<%
-        }
-    }
-%>
   <div class="col-md-5">
 	<form action="/sign" method="post">
     <h3 style="margin-bottom: 25px; text-align: center;">Create your new adverstisement</h3>
@@ -163,8 +78,7 @@
     		    <button type="submit" class="btn btn-success">Switch Board</button>
   		</form>
   	</div>
-        </div>
-    </header>
+
     </body>
     <footer class="text-center">
        <div class="footer-above">
@@ -192,4 +106,3 @@
    <!-- Bootstrap Core JavaScript -->
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 </html>
-
