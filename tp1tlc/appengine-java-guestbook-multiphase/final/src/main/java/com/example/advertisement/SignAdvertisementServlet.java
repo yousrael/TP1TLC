@@ -27,6 +27,8 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
@@ -52,19 +54,31 @@ public class SignAdvertisementServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
-    String guestbookName = req.getParameter("guestbookName");
-    String content = req.getParameter("content");
-    if (user != null) {
-      advertisement = new Advertisement(guestbookName, content, user.getUserId(), user.getEmail());
-    } else {
-      greeting = new Greeting(guestbookName, content);
-    }
+    String advertisementTitle = req.getParameter("title");
+    double advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
+
+     SimpleDateFormat formatter=new SimpleDateFormat("dd-MMM-yyyy");
+     Date advertisementDate;
+	try {
+		advertisementDate = formatter.parse(req.getParameter("date"));
+		if (user != null) {
+		      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
+		    } else {
+		      advertisement = new Advertisement(advertisementTitle,advertisementPrice,advertisementDate);
+		    }
+		 ObjectifyService.ofy().save().entity(advertisement).now();
+
+		    resp.sendRedirect("/board.jsp?advertisementTitle=" + advertisementTitle);
+		  
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  }
+  }
 
     // Use Objectify to save the greeting and now() is used to make the call synchronously as we
     // will immediately get a new page using redirect and we want the data to be present.
-    ObjectifyService.ofy().save().entity(greeting).now();
+   
 
-    resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
-  }
-}
 //[END all]

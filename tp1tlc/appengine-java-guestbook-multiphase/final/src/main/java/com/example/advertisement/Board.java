@@ -4,6 +4,6 @@ import com.googlecode.objectify.annotation.Id;
 
 public class Board {
 	
-	 @Id public String board;
+	 @Id public String boardName;
 
 }
