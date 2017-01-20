@@ -11,21 +11,16 @@ import com.googlecode.objectify.annotation.Parent;
 @Entity
 public class Advertisement {
 	@Parent Key<Board> board;
-	@Id private int id;
+	@Id private Long id;
 
 	public String author_email;
 	public String author_id;
 	private String title;
-<<<<<<< Updated upstream
+
 	@Index private double price;
 	@Index private Date date;
 	public Advertisement( String author_email, String author_id, String title, double price, Date date) {
-=======
-	private double price;
-	private Date date;
 
-	public Advertisement(int id, String author_email, String author_id, String title, double price, Date date) {
->>>>>>> Stashed changes
 		super();
 		
 		this.author_email = author_email;
@@ -34,7 +29,7 @@ public class Advertisement {
 		this.price = price;
 		this.date = date;
 	}
-<<<<<<< Updated upstream
+
 	public Advertisement(String title, double price, Date date) {
 		super();
 		this.title = title;
@@ -43,15 +38,12 @@ public class Advertisement {
 	}
 	
 	
-	
-=======
->>>>>>> Stashed changes
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

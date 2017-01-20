@@ -69,10 +69,10 @@
 <p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
 <%
       // Look at all of our greetings
-        for (Advertisement advertisement : Advertisements) {
-            pageContext.setAttribute("advertisement_title", advertisement.title);
-            pageContext.setAttribute("advertisement_price", advertisement.price);
-            pageContext.setAttribute("advertisement_date", advertisement.date);
+        for (Advertisement advertisement : advertisements) {
+            pageContext.setAttribute("advertisement_title", advertisement.getTitle());
+            pageContext.setAttribute("advertisement_price", advertisement.getPrice());
+            pageContext.setAttribute("advertisement_date", advertisement.getDate());
             String author;
             if (advertisement.author_email == null) {
                 author = "An anonymous person";
@@ -94,7 +94,9 @@
     }
 %>
 <form action="/sign" method="post">
-    <div><textarea name="content" rows="3" cols="60"></textarea></div>
+    <div>Title:<input name="title" ></input></div>
+     <div>Price:<input name="price" ></input></div>
+      <div>Date:<input name="date" ></input></div>
     <div><input type="submit" value="Post Advertisement"/></div>
     <input type="hidden" name="boardName" value="${fn:escapeXml(boardName)}"/>
 </form>
