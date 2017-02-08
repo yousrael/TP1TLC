@@ -122,10 +122,12 @@
             }
             pageContext.setAttribute("advertisement_user", author);
 %>
-<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
-<blockquote>${fn:escapeXml(advertisement_title)}</blockquote>
-<blockquote>${fn:escapeXml(advertisement_price)}</blockquote>
-<blockquote>${fn:escapeXml(advertisement_date)}</blockquote>
+<div class="container">
+	<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
+	<p>${fn:escapeXml(advertisement_title)}</p>
+	<p>${fn:escapeXml(advertisement_price)}</p>
+	<p>${fn:escapeXml(advertisement_date)}<p>
+</div>
 <%
         }
     }
