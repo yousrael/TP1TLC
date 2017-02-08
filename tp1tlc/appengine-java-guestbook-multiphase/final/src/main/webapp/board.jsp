@@ -48,15 +48,31 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
+					<%
+					    String boardName = request.getParameter("boardName");
+					    if (boardName == null) {
+					        boardName = "default";
+					    }
+					    pageContext.setAttribute("boardName", boardName);
+					    UserService userService = UserServiceFactory.getUserService();
+					    User user = userService.getCurrentUser();
+					    if (user != null) {
+					        pageContext.setAttribute("user", user);
+					%>
+						<button class="btn btn-success" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
+					<%
+					    } else {
+					%>
+					    <button class="btn btn-success" onclick="location.href='<%= userService.createLoginURL(request.getRequestURI()) %>'" type="button">Sign in</button>
+					<%
+					    }
+					%>
                     <form class="navbar-form navbar-left" role="search">
                       <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
                       </div>
-                      <button type="submit" class="btn btn-success">Submit</button>
+                      <button type="submit" class="btn btn-success">Search</button>
                     </form>
-                    <li class="page-scroll">
-                        <a href="#about">About</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -65,30 +81,6 @@
     <!-- Header -->
     <header>
         <div class="container">
-<%
-    String boardName = request.getParameter("boardName");
-    if (boardName == null) {
-        boardName = "default";
-    }
-    pageContext.setAttribute("boardName", boardName);
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-        pageContext.setAttribute("user", user);
-%>
-
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
-<%
-    } else {
-%>
-<div id="main" class="container" role="main">
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-</p>
-<%
-    }
-%>
 
 <%-- //[START datastore]--%>
 <%
