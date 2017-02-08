@@ -59,11 +59,11 @@
 					    if (user != null) {
 					        pageContext.setAttribute("user", user);
 					%>
-						<button class="btn btn-success" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
+						<button class="btn btn-danger" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
 					<%
 					    } else {
 					%>
-					    <button class="btn btn-success" onclick="location.href='<%= userService.createLoginURL(request.getRequestURI()) %>'" type="button">Sign in</button>
+					    <button class="btn btn-info" onclick="location.href='<%= userService.createLoginURL(request.getRequestURI()) %>'" type="button">Sign in</button>
 					<%
 					    }
 					%>
