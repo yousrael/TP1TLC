@@ -12,14 +12,14 @@ import com.googlecode.objectify.annotation.Parent;
 @Entity
 public class Advertisement {
 	@Parent Key<Board> board;
-	@Id private Long id;
+	@Id public Long id;
 
 	public String author_email;
 	public String author_id;
-	private String title;
+	public String title;
 
-	@Index private double price;
-	@Index private Date date;
+	@Index public double price;
+	@Index public Date date;
 	public Advertisement( String author_email, String author_id, String title, double price, Date date) {
 
 		super();
@@ -40,31 +40,4 @@ public class Advertisement {
 	
 	
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	
 }

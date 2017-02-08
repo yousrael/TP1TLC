@@ -115,9 +115,9 @@
 <%
       // Look at all of our greetings
         for (Advertisement advertisement : advertisements) {
-            pageContext.setAttribute("advertisement_title", advertisement.getTitle());
-            pageContext.setAttribute("advertisement_price", advertisement.getPrice());
-            pageContext.setAttribute("advertisement_date", advertisement.getDate());
+            pageContext.setAttribute("advertisement_title", advertisement.title);
+            pageContext.setAttribute("advertisement_price", advertisement.price);
+            pageContext.setAttribute("advertisement_date", advertisement.date);
             String author;
             if (advertisement.author_email == null) {
                 author = "An anonymous person";
