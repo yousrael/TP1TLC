@@ -59,11 +59,11 @@
 					    if (user != null) {
 					        pageContext.setAttribute("user", user);
 					%>
-						<button class="btn btn-success" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
+						<button class="btn btn-danger" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
 					<%
 					    } else {
 					%>
-					    <button class="btn btn-success" onclick="location.href='<%= userService.createLoginURL(request.getRequestURI()) %>'" type="button">Sign in</button>
+					    <button class="btn btn-info" onclick="location.href='<%= userService.createLoginURL(request.getRequestURI()) %>'" type="button">Sign in</button>
 					<%
 					    }
 					%>
@@ -148,14 +148,17 @@
     </div>
 	</form>
 </div>
-    	<div>
+    <div class="col-md-5">
+    
   		<form action="/board.jsp" class="navbar-form navbar-left" method="get">
   		    <div class="form-group">
-            <input type="text" name="boardName" value="${fn:escapeXml(boardName)}"/>
+            	<input class="form-control" name="boardName" value="${fn:escapeXml(boardName)}"/>
+    		</div>
+    		<div class="form-group">  
     		    <button type="submit" class="btn btn-success">Switch Board</button>
+    		</div>
   		</form>
   	</div>
-        </div>
     </header>
     </body>
     <footer class="text-center">
