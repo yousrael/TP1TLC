@@ -134,7 +134,7 @@
 </div>
 <%
         } 
-else {
+else { //search
 	pageContext.setAttribute("advertisement_title", advertisement.title);
     pageContext.setAttribute("advertisement_price", advertisement.price);
     pageContext.setAttribute("advertisement_date", advertisement.date);
@@ -151,6 +151,16 @@ else {
 }
     }
 %>
+
+	<form action="/filter" method="post">
+		<div class="form-group">
+    		 <button type="submit" class="btn btn-success">Remove All Visible Entry</button>
+	  			 <input type="hidden" name="boardName" value="${fn:escapeXml(boardName)}"/>
+	  			  <input type="hidden" name="filter" value="<% out.print(request.getParameter("filter")); %>"/>
+	  			  <input type="hidden" name="delete" value="TRUE"/>
+   		 </div>
+	</form>
+    
   <div class="col-md-5">
 	<form action="/sign" method="post">
     <h3 style="margin-bottom: 25px; text-align: center;">Create your new adverstisement</h3>
