@@ -109,8 +109,10 @@
 <p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
 <%
       // Look at all of our greetings
+      	int nAdvertisement = 0;
         for (Advertisement advertisement : advertisements) {
         	if(request.getParameter("filter")==null){
+        	nAdvertisement++;
             pageContext.setAttribute("advertisement_title", advertisement.title);
             pageContext.setAttribute("advertisement_price", advertisement.price);
             pageContext.setAttribute("advertisement_date", advertisement.date);
@@ -126,12 +128,14 @@
             }
             pageContext.setAttribute("advertisement_user", author);
 %>
-<div class="container">
-	<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
-	<p>${fn:escapeXml(advertisement_title)}</p>
-	<p>${fn:escapeXml(advertisement_price)}</p>
-	<p>${fn:escapeXml(advertisement_date)}<p>
-</div>
+
+	<div class="advertisement">
+		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
+		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
+		<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
+		<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
+		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
+	</div>
 <%
         } 
 else { //search

@@ -7,8 +7,16 @@ body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   overflow-x: hidden;
 }
+
+div.advertisement {
+  text-align: left;
+  background-color: #18BC9C;
+  border-radius: 10px;
+  padding:1px 10px;
+}
+
 p {
-  color:black;
+  color:white;
   font-size: 20px;
 }
 p.small {
@@ -22,7 +30,10 @@ a.active {
   color: #18BC9C;
   outline: none;
 }
-h1,
+h1{  
+  color:white;
+  font-size: 22px;
+}
 h2,
 h3{color : black;}
 h4,
