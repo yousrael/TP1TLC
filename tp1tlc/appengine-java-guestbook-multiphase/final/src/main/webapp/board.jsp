@@ -149,9 +149,12 @@
 	</form>
 </div>
     <div class="col-md-5">
+    
   		<form action="/board.jsp" class="navbar-form navbar-left" method="get">
   		    <div class="form-group">
-            <input class="form-control" name="boardName" value="${fn:escapeXml(boardName)}"/>
+            	<input class="form-control" name="boardName" value="${fn:escapeXml(boardName)}"/>
+    		</div>
+    		<div class="form-group">  
     		    <button type="submit" class="btn btn-success">Switch Board</button>
     		</div>
   		</form>
