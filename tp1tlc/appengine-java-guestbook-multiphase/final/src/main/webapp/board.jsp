@@ -158,7 +158,8 @@ else { //search
 
 	<form action="/filter" method="post">
 		<div class="form-group">
-    		 <button type="submit" class="btn btn-success">Remove All Visible Entry</button>
+			 </br>
+    		 <button type="submit" class="btn btn-danger">Remove All Visible Entry</button>
 	  			 <input type="hidden" name="boardName" value="${fn:escapeXml(boardName)}"/>
 	  			  <input type="hidden" name="filter" value="<% out.print(request.getParameter("filter")); %>"/>
 	  			  <input type="hidden" name="delete" value="TRUE"/>
