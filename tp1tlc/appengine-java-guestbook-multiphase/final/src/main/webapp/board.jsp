@@ -1,4 +1,6 @@
 <%-- //[START all]--%>
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
@@ -67,9 +69,9 @@
 					<%
 					    }
 					%>
-                    <form class="navbar-form navbar-left" role="search">
+                    <form class="navbar-form navbar-left" role="search" action="/sign" method="post">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" class="form-control" name="filter" placeholder="Search">
                       </div>
                       <button type="submit" class="btn btn-success">Search</button>
                     </form>
@@ -101,12 +103,14 @@
 %>
 <p>Board '${fn:escapeXml(boardName)}' has no advertisement.</p>
 <%
-    } else {
+    } else
+    	 {
 %>
 <p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
 <%
       // Look at all of our greetings
         for (Advertisement advertisement : advertisements) {
+        	if(request.getParameter("filter")==null){
             pageContext.setAttribute("advertisement_title", advertisement.title);
             pageContext.setAttribute("advertisement_price", advertisement.price);
             pageContext.setAttribute("advertisement_date", advertisement.date);
@@ -129,7 +133,18 @@
 	<p>${fn:escapeXml(advertisement_date)}<p>
 </div>
 <%
-        }
+        } 
+else {
+	if(advertisement.title.contains(request.getParameter("filter"))){
+		%> <div class="container">
+		<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
+		<p>${fn:escapeXml(advertisement_title)}</p>
+		<p>${fn:escapeXml(advertisement_price)}</p>
+		<p>${fn:escapeXml(advertisement_date)}<p>
+	</div> <%
+	}
+}
+}
     }
 %>
   <div class="col-md-5">
@@ -148,7 +163,10 @@
      <button type="submit" class="btn btn-success">Post Advertisement</button>
 	   <input type="hidden" name="boardName" value="${fn:escapeXml(boardName)}"/>
     </div>
+   
 	</form>
+	
+	
 </div>
     <div class="col-md-5">
     

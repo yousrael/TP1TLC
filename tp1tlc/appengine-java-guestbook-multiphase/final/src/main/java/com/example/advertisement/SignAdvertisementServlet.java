@@ -55,6 +55,7 @@ public class SignAdvertisementServlet extends HttpServlet {
     User user = userService.getCurrentUser();  // Find out who the user is.
     String boardName=req.getParameter("boardName");
     String advertisementTitle = req.getParameter("title");
+    String filter=req.getParameter("filter");
     double advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
 
      SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
@@ -68,7 +69,7 @@ public class SignAdvertisementServlet extends HttpServlet {
 		    }
 		 ObjectifyService.ofy().save().entity(advertisement).now();
 
-		    resp.sendRedirect("/board.jsp?boardName=" + boardName);
+		    resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
 		  
 	} catch (ParseException e) {
 		// TODO Auto-generated catch block
