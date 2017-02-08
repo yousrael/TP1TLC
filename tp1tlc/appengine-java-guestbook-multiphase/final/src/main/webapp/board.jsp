@@ -69,7 +69,7 @@
 					<%
 					    }
 					%>
-                    <form class="navbar-form navbar-left" role="search" action="/sign" method="post">
+                    <form class="navbar-form navbar-left" role="search" action="/filter" method="post">
                       <div class="form-group">
                         <input type="text" class="form-control" name="filter" placeholder="Search">
                       </div>
@@ -135,6 +135,10 @@
 <%
         } 
 else {
+	pageContext.setAttribute("advertisement_title", advertisement.title);
+    pageContext.setAttribute("advertisement_price", advertisement.price);
+    pageContext.setAttribute("advertisement_date", advertisement.date);
+    
 	if(advertisement.title.contains(request.getParameter("filter"))){
 		%> <div class="container">
 		<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>

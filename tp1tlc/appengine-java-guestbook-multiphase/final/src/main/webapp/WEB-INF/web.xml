@@ -13,6 +13,17 @@
       <servlet-name>sign</servlet-name>
       <url-pattern>/sign</url-pattern>
     </servlet-mapping>
+    
+    
+    <servlet>
+      <servlet-name>search</servlet-name>
+      <servlet-class>com.example.advertisement.FilterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>search</servlet-name>
+      <url-pattern>/filter</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>board.jsp</welcome-file>
