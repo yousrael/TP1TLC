@@ -92,9 +92,9 @@
       List<Advertisement> advertisements = ObjectifyService.ofy()
           .load()
           .type(Advertisement.class) // We want only Advertisements
-          .ancestor(board)    // Anyone in this board
-          .order("-date")       // Most recent first - date is indexed.
-          .limit(5)             // Only show 5 of them.
+        //  .ancestor(board)    // Anyone in this board
+         // .order("-date")       // Most recent first - date is indexed.
+         // .limit(5)             // Only show 5 of them.
           .list();
 
     if (advertisements.isEmpty()) {
@@ -173,7 +173,7 @@
            <div class="container">
                <div class="row">
                    <div class="col-lg-12">
-                       Master 2 GLA : Simon, Stephen, Yoursra
+                       Master 2 GLA : Simon, Stephen, Yousra
                    </div>
                </div>
            </div>

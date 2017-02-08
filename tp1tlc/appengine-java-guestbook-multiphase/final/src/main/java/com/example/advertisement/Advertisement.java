@@ -37,6 +37,11 @@ public class Advertisement {
 		this.price = price;
 		this.date = date;
 	}
+
+	public Advertisement() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 
