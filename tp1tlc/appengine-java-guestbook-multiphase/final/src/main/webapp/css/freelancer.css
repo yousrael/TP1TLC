@@ -16,11 +16,7 @@ div.advertisement {
   padding-left: 20px;
 }
 
-slider.slider {
-  margin : 20px 20px;
-  height:15px;
-  width: 15px;
-}
+.table-responsive {height:225px;}
 
 p {
   color:white;

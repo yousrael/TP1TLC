@@ -109,6 +109,11 @@
     	 {
 %>
 <p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
+	<div class="container">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <tbody id="myTable">
 <%
       // Look at all of our greetings
       	int nAdvertisement = 0;
@@ -131,13 +136,14 @@
             }
             pageContext.setAttribute("advertisement_user", author);
 %>
-	<div class="advertisement">
+
+              <tr>	<div class="advertisement">
 		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
 		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
 		<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
 		<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
 		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
-	</div>
+	</div></tr>
 <%
         } 
 else 
@@ -147,18 +153,26 @@ else
     pageContext.setAttribute("advertisement_date", advertisement.date);
     
 	if(advertisement.title.contains(request.getParameter("filter"))){
-		%> <table border="2" width="60%" height="40%" align="center">
-		<tr> 
-		<th style="color: black;">${fn:escapeXml(advertisement_title)}</th>
-		<th style="color: black;">${fn:escapeXml(advertisement_price)}</th>
-		<th style="color: black;">${fn:escapeXml(advertisement_date)}</th>
-		</tr>
-		</table> <%
+		%> <tr>	<div class="advertisement">
+		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
+		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
+		<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
+		<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
+		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
+	</div></tr> <%
 	}
 }
 }
     }
 %>
+          </tbody>
+        </table>   
+      </div>
+      <div class="col-md-12 text-center">
+      <ul class="pagination pagination-lg pager" id="myPager"></ul>
+      </div>
+	</div>
+</div>
 
 	<form action="/delete" method="post">
 		<div class="form-group">
@@ -217,5 +231,6 @@ else
    <script src="vendor/jquery/jquery.min.js"></script>
    <!-- Bootstrap Core JavaScript -->
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+   <script src="js/table.js"></script>
 </html>
 
