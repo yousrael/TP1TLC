@@ -14,7 +14,6 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class DeleteServlet  extends HttpServlet  {
 
-
 	  // Process the http POST of the form
 	  @Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -26,17 +25,15 @@ public class DeleteServlet  extends HttpServlet  {
 	   // String delete=req.getParameter("delete");
 	   // System.out.println("boardName: "+boardName+" filter: "+filter+" delete: "+delete);
 	  
-
 		   List<Advertisement> advertisements = ObjectifyService.ofy()
 			          .load()
 			          .type(Advertisement.class) 
 			          .list();
 		   
-		   System.out.println("Database Loded");
+		   System.out.println("Database Loaded");
 		      
 		   for (Advertisement advertisement : advertisements) {
-			  if(advertisement.title.contains(filter)){
-			   
+			  if(advertisement.title.contains(filter)){   
 					ObjectifyService.ofy().delete().entity(advertisement);
 					System.out.println("remove : "+advertisement.title);
 			   
