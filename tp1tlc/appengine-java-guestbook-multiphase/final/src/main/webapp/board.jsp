@@ -32,7 +32,8 @@
     <link href="css/freelancer.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-</head>
+    
+    </head>
 <body id="page-top" class="index">
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -73,6 +74,8 @@
                       <div class="form-group">
                         <input type="text" class="form-control" name="filter" placeholder="Search">
                       </div>
+                    <!--   <div> 0 <input type="range" name="priceValue" min="0" max="10000" />10000</div>--> 
+                    
                       <button type="submit" class="btn btn-success">Search</button>
                     </form>
                 </ul>
@@ -112,6 +115,7 @@
       	int nAdvertisement = 0;
         for (Advertisement advertisement : advertisements) {
         	if(request.getParameter("filter")==null){
+        		
         	nAdvertisement++;
             pageContext.setAttribute("advertisement_title", advertisement.title);
             pageContext.setAttribute("advertisement_price", advertisement.price);
@@ -138,31 +142,33 @@
 	</div>
 <%
         } 
-else { //search
+else 
+ { //search
 	pageContext.setAttribute("advertisement_title", advertisement.title);
     pageContext.setAttribute("advertisement_price", advertisement.price);
     pageContext.setAttribute("advertisement_date", advertisement.date);
     
 	if(advertisement.title.contains(request.getParameter("filter"))){
-		%> <div class="container">
-		<p><b>${fn:escapeXml(advertisement_user)}</b> wrote:</p>
-		<p>${fn:escapeXml(advertisement_title)}</p>
-		<p>${fn:escapeXml(advertisement_price)}</p>
-		<p>${fn:escapeXml(advertisement_date)}<p>
-	</div> <%
+		%> <table border="2" width="60%" height="40%" align="center">
+		<tr> 
+		<th style="color: black;">${fn:escapeXml(advertisement_title)}</th>
+		<th style="color: black;">${fn:escapeXml(advertisement_price)}</th>
+		<th style="color: black;">${fn:escapeXml(advertisement_date)}</th>
+		</tr>
+		</table> <%
 	}
 }
 }
     }
 %>
 
-	<form action="/filter" method="post">
+	<form action="/delete" method="post">
 		<div class="form-group">
 			 </br>
     		 <button type="submit" class="btn btn-danger">Remove All Visible Entry</button>
-	  			 <input type="hidden" name="boardName" value="${fn:escapeXml(boardName)}"/>
+	  			
 	  			  <input type="hidden" name="filter" value="<% out.print(request.getParameter("filter")); %>"/>
-	  			  <input type="hidden" name="delete" value="TRUE"/>
+	  			 
    		 </div>
 	</form>
     
