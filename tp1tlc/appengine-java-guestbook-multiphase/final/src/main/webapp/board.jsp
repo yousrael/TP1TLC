@@ -32,7 +32,10 @@
     <link href="css/freelancer.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   
+  
     </head>
+   
 <body id="page-top" class="index">
     <!-- Navigation -->
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -73,14 +76,27 @@
                       <div class="form-group">
                         <input type="text" class="form-control" name="filter" placeholder="Search">
                       </div>
-                    <!--   <div> 0 <input type="range" name="priceValue" min="0" max="10000" />10000</div>--> 
-                    
+                      
+  
+  <div data-role="rangeslider">
+    <label for="range-1a" > Minimum Price:</label>
+    <input name="priceMin"  min="0" max="100" value="0" type="range" >
+    <label for="range-1b" >Maximum Price:</label>
+    <input name="priceMax"  min="0" max="100" value="100" type="range" >
+  </div>
+
+                  <!--   <div align="center"> 0 <input type="range" name="priceMin" min="0" max="500" />500</div>
+                     <div align="center"> 500 <input type="range" name="priceMax" min="500" max="10000" />10000</div>-->
+                   
                       <button type="submit" class="btn btn-success">Search</button>
                     </form>
+                   
                 </ul>
             </div>
         </div>
+       
     </nav>
+    
     
     <!-- Header -->
     <header>
@@ -152,7 +168,7 @@ else
     pageContext.setAttribute("advertisement_price", advertisement.price);
     pageContext.setAttribute("advertisement_date", advertisement.date);
     
-	if(advertisement.title.contains(request.getParameter("filter"))){
+	if(advertisement.title.contains(request.getParameter("filter")) && advertisement.price>Double.parseDouble(request.getParameter("priceMin")) && advertisement.price<Double.parseDouble(request.getParameter("priceMax")) ){
 		%> <tr>	<div class="advertisement">
 		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
 		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>

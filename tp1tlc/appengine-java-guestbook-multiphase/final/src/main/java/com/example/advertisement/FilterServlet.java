@@ -18,7 +18,11 @@ public class FilterServlet  extends HttpServlet  {
 		  // Find out who the user is.
 		  String boardName=req.getParameter("boardName");
 		  String filter=req.getParameter("filter");
-		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
+		  String priceMin=req.getParameter("priceMin");
+		  String priceMax=req.getParameter("priceMax");
+		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax);
+		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
 	  }
+	  
 }
 
