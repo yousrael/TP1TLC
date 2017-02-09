@@ -2,7 +2,6 @@ package com.example.advertisement;
 
 import java.util.Date;
 
-import com.example.guestbook.Guestbook;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -41,7 +40,4 @@ public class Advertisement {
 	public Advertisement() {
 		super();
 	}
-	
-	
-
 }

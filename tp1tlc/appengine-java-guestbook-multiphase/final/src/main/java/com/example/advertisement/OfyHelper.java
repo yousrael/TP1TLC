@@ -16,12 +16,10 @@
 //[START all]
 package com.example.advertisement;
 
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
-
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * OfyHelper, a ServletContextListener, is setup in web.xml to run before a JSP is run.  This is
@@ -39,4 +37,3 @@ public class OfyHelper implements ServletContextListener {
     // App Engine does not currently invoke this method.
   }
 }
-//[END all]

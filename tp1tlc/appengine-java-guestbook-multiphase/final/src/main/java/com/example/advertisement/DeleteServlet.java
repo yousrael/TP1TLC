@@ -19,12 +19,12 @@ public class DeleteServlet  extends HttpServlet  {
 	  @Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
-  System.err.println("servlet Delete");
-	      // Find out who the user is.
-	    String boardName=req.getParameter("boardName");
+	   System.err.println("Servlet Delete");
+	   // Find out who the user is.
+	   String boardName=req.getParameter("boardName");
 	   String filter=req.getParameter("filter");
-	  // String delete=req.getParameter("delete");
-	  // System.out.println("boardName: "+boardName+" filter: "+filter+" delete: "+delete);
+	   // String delete=req.getParameter("delete");
+	   // System.out.println("boardName: "+boardName+" filter: "+filter+" delete: "+delete);
 	  
 
 		   List<Advertisement> advertisements = ObjectifyService.ofy()
