@@ -17,15 +17,6 @@
 //[START all]
 package com.example.advertisement;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +26,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.guestbook.Greeting;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 /**
@@ -55,11 +50,19 @@ public class SignAdvertisementServlet extends HttpServlet {
     User user = userService.getCurrentUser();  // Find out who the user is.
     String boardName=req.getParameter("boardName");
     String advertisementTitle = req.getParameter("title");
-    double advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
-     SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
-     Date advertisementDate;
+    
+    double advertisementPrice = 0;
+    try{
+    	advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
+    }
+    catch(NumberFormatException e){
+    	resp.sendRedirect("/board.jsp?boardName=" + boardName);
+    }
+    
+    SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+    Date advertisementDate;
 	try {
-		advertisementDate = formatter.parse(req.getParameter("date"));
+			advertisementDate = formatter.parse(req.getParameter("date"));
 		if (user != null) {
 		      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
 		    } else {
@@ -70,14 +73,7 @@ public class SignAdvertisementServlet extends HttpServlet {
 		    resp.sendRedirect("/board.jsp?boardName=" + boardName);
 		  
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		resp.sendRedirect("/board.jsp?boardName=" + boardName);
 	}
   }
-  }
-
-    // Use Objectify to save the greeting and now() is used to make the call synchronously as we
-    // will immediately get a new page using redirect and we want the data to be present.
-   
-
-//[END all]
+ }
