@@ -1,17 +1,14 @@
 package com.example.advertisement;
 
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.ObjectifyService;
-
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.googlecode.objectify.ObjectifyService;
 
 
 
@@ -45,13 +42,7 @@ public class DeleteServlet  extends HttpServlet  {
 			   
 			  }
 		   }
-			   
-		   
-	   
-	  
 		   resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
-
-	//[END all]
 
 	  }
 }

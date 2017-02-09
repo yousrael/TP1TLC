@@ -40,7 +40,6 @@ public class Advertisement {
 
 	public Advertisement() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	
