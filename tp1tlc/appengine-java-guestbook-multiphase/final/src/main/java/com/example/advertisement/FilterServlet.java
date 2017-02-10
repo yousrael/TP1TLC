@@ -2,10 +2,14 @@ package com.example.advertisement;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.googlecode.objectify.ObjectifyService;
 
 
 
@@ -20,6 +24,8 @@ public class FilterServlet  extends HttpServlet  {
 		  String filter=req.getParameter("filter");
 		  String priceMin=req.getParameter("priceMin");
 		  String priceMax=req.getParameter("priceMax");
+		  
+		 
 		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax);
 		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
 	  }

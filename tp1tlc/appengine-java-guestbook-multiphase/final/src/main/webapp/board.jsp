@@ -1,6 +1,7 @@
 <%-- //[START all]--%>
 
 
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
@@ -114,9 +115,9 @@
           .type(Advertisement.class) // We want only Advertisements
         //  .ancestor(board)    // Anyone in this board
          // .order("-date")       // Most recent first - date is indexed.
-         // .limit(5)             // Only show 5 of them.
+         //.limit(10)             // Only show 5 of them.
           .list();
-
+     
     if (advertisements.isEmpty()) {
 %>
 <p>Board '${fn:escapeXml(boardName)}' has no advertisement.</p>
@@ -133,9 +134,9 @@
 <%
       // Look at all of our greetings
       	int nAdvertisement = 0;
-        for (Advertisement advertisement : advertisements) {
+        
         	if(request.getParameter("filter")==null){
-        		
+        		for (Advertisement advertisement : advertisements) {
         	nAdvertisement++;
             pageContext.setAttribute("advertisement_title", advertisement.title);
             pageContext.setAttribute("advertisement_price", advertisement.price);
@@ -162,13 +163,23 @@
 	</div></tr>
 <%
         } 
+        	}
 else 
  { //search
+	//List<Double> priceRange=new ArrayList();
+	//  priceRange.add(Double.parseDouble(request.getParameter("priceMin")));
+	//  priceRange.add(Double.parseDouble(request.getParameter("priceMax")));
+	
+	  List<Advertisement> advertisements2= ObjectifyService.ofy()
+	          .load()
+	          .type(Advertisement.class) // We want only Advertisements
+	          .filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
+	  for (Advertisement advertisement : advertisements2) {
 	pageContext.setAttribute("advertisement_title", advertisement.title);
     pageContext.setAttribute("advertisement_price", advertisement.price);
     pageContext.setAttribute("advertisement_date", advertisement.date);
     
-	if(advertisement.title.contains(request.getParameter("filter")) && advertisement.price>Double.parseDouble(request.getParameter("priceMin")) && advertisement.price<Double.parseDouble(request.getParameter("priceMax")) ){
+	//if(advertisement.title.contains(request.getParameter("filter")) ){
 		%> <tr>	<div class="advertisement">
 		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
 		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
@@ -179,7 +190,7 @@ else
 	}
 }
 }
-    }
+    //}
 %>
           </tbody>
         </table>   
@@ -247,6 +258,6 @@ else
    <script src="vendor/jquery/jquery.min.js"></script>
    <!-- Bootstrap Core JavaScript -->
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-   <script src="js/table.js"></script>
+ 
 </html>
 
