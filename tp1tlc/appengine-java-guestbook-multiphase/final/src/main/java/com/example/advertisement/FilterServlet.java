@@ -24,9 +24,11 @@ public class FilterServlet  extends HttpServlet  {
 		  String filter=req.getParameter("filter");
 		  String priceMin=req.getParameter("priceMin");
 		  String priceMax=req.getParameter("priceMax");
+		  String dateMin=req.getParameter("dateMin");
+		  String dateMax=req.getParameter("dateMax");
 		  
 		 
-		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax);
+		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax+"&dateMin="+dateMin+"&dateMax="+dateMax);
 		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
 	  }
 	  

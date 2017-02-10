@@ -1,6 +1,9 @@
 <%-- //[START all]--%>
 
 
+<%@page import="com.google.appengine.repackaged.com.google.protobuf.TextFormat.ParseException"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.google.appengine.api.users.User" %>
@@ -43,7 +46,7 @@
       result.innerHTML = num;
 }
   </script>
-  
+ 
     </head>
    
 <body id="page-top" class="index">
@@ -94,11 +97,12 @@
   <div id="resultMin" style="border:1px solid #999;color: white;">
   </div>
     <label for="range-1b" style="color:#18BC9C;">Maximum Price:</label>
-    <input name="priceMax"  min="500" max="1000" value="0" type="range" onChange="showValueMax(this.value);">
+    <input name="priceMax"  min="500" max="1000" value="500" type="range" onChange="showValueMax(this.value);">
   <div id="resultMax" style="border:1px solid #999;color: white;">
   </div>
   </div>
-
+       <input name="dateMin" value="EX:21-08-2017">
+       <input name="dateMax" value="EX:21-08-2017">
                   <!--   <div align="center"> 0 <input type="range" name="priceMin" min="0" max="500" />500</div>
                      <div align="center"> 500 <input type="range" name="priceMax" min="500" max="10000" />10000</div>-->
                    
@@ -181,10 +185,21 @@ else
  {
 	//search
  System.out.println("youpiiiiiiiiiiiiiiiiiii!!");
+//  SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+//  try {
+
+//      Date dateMin = formatter.parse(request.getParameter("dateMin"));
+//      Date dateMax = formatter.parse(request.getParameter("dateMax"));
+     
+
+//  } catch (ParseException e) {
+//      e.printStackTrace();
+//  }
+
 	//List<Double> priceRange=new ArrayList();
 	//  priceRange.add(Double.parseDouble(request.getParameter("priceMin")));
 	//  priceRange.add(Double.parseDouble(request.getParameter("priceMax")));
-	if(Double.parseDouble(request.getParameter("priceMin"))==0 && Double.parseDouble(request.getParameter("priceMax"))==0 ){
+	if(Double.parseDouble(request.getParameter("priceMin"))==0 && Double.parseDouble(request.getParameter("priceMax"))==500 &&  request.getParameter("dateMin").contains("EX") &&  request.getParameter("dateMax").contains("EX")){
 		System.out.println("filteeeeeeeeeeeeeeeeeer!!!!!");
 		List<Advertisement> advertisements2= ObjectifyService.ofy()
 		          .load()
@@ -206,30 +221,37 @@ else
 	}
 		  }
 	else{
-	
-	System.out.println("MinMaaaaaaaaaaaaax");
-	  List<Advertisement> advertisements2= ObjectifyService.ofy()
-	          .load()
-	          .type(Advertisement.class) // We want only Advertisements
-	          .filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
-	  for (Advertisement advertisement : advertisements2) {
-	pageContext.setAttribute("advertisement_title", advertisement.title);
-    pageContext.setAttribute("advertisement_price", advertisement.price);
-    pageContext.setAttribute("advertisement_date", advertisement.date);
-    
-	//if(advertisement.title.contains(request.getParameter("filter")) ){
-		%> <tr>	<div class="advertisement">
-		<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
-		<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
-		<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
-		<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
-		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
-	</div></tr> <%
+		
+	 try {
+		  SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+	      Date dateMin = formatter.parse(request.getParameter("dateMin"));
+	      Date dateMax = formatter.parse(request.getParameter("dateMax"));
+	  	System.out.println("MinMaaaaaaaaaaaaax");
+		  List<Advertisement> advertisements2= ObjectifyService.ofy()
+		          .load()
+		          .type(Advertisement.class) // We want only Advertisements
+		          .filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).filter("date >",dateMin).filter("date <",dateMax).list();
+		  for (Advertisement advertisement : advertisements2) {
+		pageContext.setAttribute("advertisement_title", advertisement.title);
+	    pageContext.setAttribute("advertisement_price", advertisement.price);
+	    pageContext.setAttribute("advertisement_date", advertisement.date);
+	    
+		//if(advertisement.title.contains(request.getParameter("filter")) ){
+			%> <tr>	<div class="advertisement">
+			<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
+			<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
+			<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
+			<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
+			<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
+		</div></tr> <%
+		}
+		   } catch (ParseException e) {
+	      e.printStackTrace();
+	 }
+
+    }
 	}
-	  }
-}
-}
-    //}
+	}
 %>
           </tbody>
         </table>   
