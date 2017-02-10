@@ -33,7 +33,16 @@
     <link href="css/freelancer.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-   
+   <script type="text/javascript">
+  function showValueMin(num){
+           var result = document.getElementById('resultMin');     
+           result.innerHTML = num;
+  }
+  function showValueMax(num){
+      var result = document.getElementById('resultMax');     
+      result.innerHTML = num;
+}
+  </script>
   
     </head>
    
@@ -80,10 +89,14 @@
                       
   
   <div data-role="rangeslider">
-    <label for="range-1a" > Minimum Price:</label>
-    <input name="priceMin"  min="0" max="100" value="0" type="range" >
-    <label for="range-1b" >Maximum Price:</label>
-    <input name="priceMax"  min="0" max="100" value="100" type="range" >
+    <label for="range-1a" style="color:#18BC9C;" > Minimum Price:</label>
+    <input name="priceMin"  min="0" max="500" value="0" type="range" onChange="showValueMin(this.value);">
+  <div id="resultMin" style="border:1px solid #999;color: white;">
+  </div>
+    <label for="range-1b" style="color:#18BC9C;">Maximum Price:</label>
+    <input name="priceMax"  min="500" max="1000" value="0" type="range" onChange="showValueMax(this.value);">
+  <div id="resultMax" style="border:1px solid #999;color: white;">
+  </div>
   </div>
 
                   <!--   <div align="center"> 0 <input type="range" name="priceMin" min="0" max="500" />500</div>
@@ -165,11 +178,36 @@
         } 
         	}
 else 
- { //search
+ {
+	//search
+ System.out.println("youpiiiiiiiiiiiiiiiiiii!!");
 	//List<Double> priceRange=new ArrayList();
 	//  priceRange.add(Double.parseDouble(request.getParameter("priceMin")));
 	//  priceRange.add(Double.parseDouble(request.getParameter("priceMax")));
+	if(Double.parseDouble(request.getParameter("priceMin"))==0 && Double.parseDouble(request.getParameter("priceMax"))==0 ){
+		System.out.println("filteeeeeeeeeeeeeeeeeer!!!!!");
+		List<Advertisement> advertisements2= ObjectifyService.ofy()
+		          .load()
+		          .type(Advertisement.class) // We want only Advertisements
+		          .filter("title =",request.getParameter("filter")).list();
+		  for (Advertisement advertisement : advertisements2) {
+		pageContext.setAttribute("advertisement_title", advertisement.title);
+	    pageContext.setAttribute("advertisement_price", advertisement.price);
+	    pageContext.setAttribute("advertisement_date", advertisement.date);
+	    
+		//if(advertisement.title.contains(request.getParameter("filter")) ){
+			%> <tr>	<div class="advertisement">
+			<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
+			<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
+			<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
+			<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
+			<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
+		</div></tr> <%
+	}
+		  }
+	else{
 	
+	System.out.println("MinMaaaaaaaaaaaaax");
 	  List<Advertisement> advertisements2= ObjectifyService.ofy()
 	          .load()
 	          .type(Advertisement.class) // We want only Advertisements
@@ -188,6 +226,7 @@ else
 		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
 	</div></tr> <%
 	}
+	  }
 }
 }
     //}
