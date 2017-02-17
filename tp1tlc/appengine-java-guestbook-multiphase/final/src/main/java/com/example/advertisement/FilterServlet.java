@@ -15,8 +15,25 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class FilterServlet  extends HttpServlet  {
 	  // Process the http POST of the form
-	  @Override
+	@Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	   
+		  System.err.println("servlet Filter");
+		  // Find out who the user is.
+		  String boardName=req.getParameter("boardName");
+		  String filter=req.getParameter("filter");
+		  String priceMin=req.getParameter("priceMin");
+		  String priceMax=req.getParameter("priceMax");
+		  String dateMin=req.getParameter("dateMin");
+		  String dateMax=req.getParameter("dateMax");
+		  
+		 
+		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax+"&dateMin="+dateMin+"&dateMax="+dateMax);
+		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
+	  }
+	
+	@Override
+	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
 		  System.err.println("servlet Filter");
 		  // Find out who the user is.

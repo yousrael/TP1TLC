@@ -22,22 +22,30 @@ public class Advertisement {
 	public Advertisement( String author_email, String author_id, String title, double price, Date date) {
 
 		super();
+		System.err.println("Advertisement1");
 		
 		this.author_email = author_email;
 		this.author_id = author_id;
 		this.title = title;
 		this.price = price;
 		this.date = date;
+		if(this.date == null)
+			this.date = new Date();
 	}
 
 	public Advertisement(String title, double price, Date date) {
 		super();
+		System.err.println("Advertisement2");
 		this.title = title;
 		this.price = price;
 		this.date = date;
+		if(this.date == null)
+			this.date = new Date();
 	}
 
 	public Advertisement() {
 		super();
+		System.err.println("Advertisement3");
+		this.date = new Date();
 	}
 }

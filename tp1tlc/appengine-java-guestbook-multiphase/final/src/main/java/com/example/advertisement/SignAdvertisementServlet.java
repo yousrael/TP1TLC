@@ -43,36 +43,69 @@ public class SignAdvertisementServlet extends HttpServlet {
   // Process the http POST of the form
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Advertisement advertisement;
+	    Advertisement advertisement;
 
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();  // Find out who the user is.
-    String boardName=req.getParameter("boardName");
-    String advertisementTitle = req.getParameter("title");
-    
-    double advertisementPrice = 0;
-    try{
-    	advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
-    }
-    catch(NumberFormatException e){
-    	resp.sendRedirect("/board.jsp?boardName=" + boardName);
-    }
-    
-    SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
-    Date advertisementDate;
-	try {
-			advertisementDate = formatter.parse(req.getParameter("date"));
-		if (user != null) {
-		      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
-		    } else {
-		      advertisement = new Advertisement(advertisementTitle,advertisementPrice,advertisementDate);
-		    }
-		 ObjectifyService.ofy().save().entity(advertisement).now();
+	    UserService userService = UserServiceFactory.getUserService();
+	    User user = userService.getCurrentUser();  // Find out who the user is.
+	    String boardName=req.getParameter("boardName");
+	    String advertisementTitle = req.getParameter("title");
+	    
+	    double advertisementPrice = 0;
+	    try{
+	    	advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
+	    }
+	    catch(NumberFormatException e){
+	    	resp.sendRedirect("/board.jsp?boardName=" + boardName);
+	    }
+	    Date advertisementDate=null;
+	    SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+	    try {
+	    	advertisementDate = formatter.parse(req.getParameter("date"));
+	    } catch (ParseException e) {
+			resp.sendRedirect("/board.jsp?boardName=" + boardName);
+		}
+	    System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
+			if (user != null) {
+			      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
+			    } else {
+			      advertisement = new Advertisement(advertisementTitle,advertisementPrice,advertisementDate);
+			    }
+			 ObjectifyService.ofy().save().entity(advertisement).now();
 
-		    resp.sendRedirect("/board.jsp?boardName=" + boardName);
-		  
-	} catch (ParseException e) {
-		resp.sendRedirect("/board.jsp?boardName=" + boardName);
-	}
-  }
+			    resp.sendRedirect("/board.jsp?boardName=" + boardName);
+			  
+	  }
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	    Advertisement advertisement;
+
+	    UserService userService = UserServiceFactory.getUserService();
+	    User user = userService.getCurrentUser();  // Find out who the user is.
+	    String boardName=req.getParameter("boardName");
+	    String advertisementTitle = req.getParameter("title");
+	    
+	    double advertisementPrice = 0;
+	    try{
+	    	advertisementPrice = (double) Double.parseDouble(req.getParameter("price"));
+	    }
+	    catch(NumberFormatException e){
+	    	resp.sendRedirect("/board.jsp?boardName=" + boardName);
+	    }
+	    Date advertisementDate=null;
+	    SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+	    try {
+	    	advertisementDate = formatter.parse(req.getParameter("date"));
+	    } catch (ParseException e) {
+			resp.sendRedirect("/board.jsp?boardName=" + boardName);
+		}
+	    System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
+			if (user != null) {
+			      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
+			    } else {
+			      advertisement = new Advertisement(advertisementTitle,advertisementPrice,advertisementDate);
+			    }
+			 ObjectifyService.ofy().save().entity(advertisement).now();
+
+			    resp.sendRedirect("/board.jsp?boardName=" + boardName);
+			  
+	  }
  }
