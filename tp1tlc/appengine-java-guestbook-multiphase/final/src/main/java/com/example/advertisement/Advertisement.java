@@ -15,7 +15,7 @@ public class Advertisement {
 
 	public String author_email;
 	public String author_id;
-	public String title;
+	@Index public String title;
 
 	@Index public double price;
 	@Index public Date date;

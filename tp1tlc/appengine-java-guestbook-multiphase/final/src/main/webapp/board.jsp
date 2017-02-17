@@ -132,7 +132,7 @@
           .type(Advertisement.class) // We want only Advertisements
         //  .ancestor(board)    // Anyone in this board
          // .order("-date")       // Most recent first - date is indexed.
-         //.limit(10)             // Only show 5 of them.
+         .limit(6)             // Only show 5 of them.
           .list();
      
     if (advertisements.isEmpty()) {
@@ -189,11 +189,17 @@ else
 	      Date dateMin = formatter.parse(request.getParameter("dateMin"));
 	      Date dateMax = formatter.parse(request.getParameter("dateMax"));
 	  	System.out.println("MinMaaaaaaaaaaaaax");
+	  	
 		  List<Advertisement> advertisements2= ObjectifyService.ofy()
 		          .load()
 		          .type(Advertisement.class) // We want only Advertisements
-		          .filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).filter("date >",dateMin).filter("date <",dateMax).list();
+		          .filter("title",request.getParameter("filter")).list();
+		// .filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
+		 // .filter("date >",dateMin).filter("date <",dateMax).list();
+		
 		  for (Advertisement advertisement : advertisements2) {
+			  System.out.println("Meeeeeeeeeeeeeeeeeeeeeeeeerde");
+		  
 		pageContext.setAttribute("advertisement_title", advertisement.title);
 	    pageContext.setAttribute("advertisement_price", advertisement.price);
 	    pageContext.setAttribute("advertisement_date", advertisement.date);
