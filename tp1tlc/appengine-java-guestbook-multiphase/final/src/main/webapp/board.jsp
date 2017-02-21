@@ -191,8 +191,8 @@ else
 		  List<Advertisement> advertisements2= ObjectifyService.ofy()
 		          .load()
 		          .type(Advertisement.class) // We want only Advertisements
-		         // .filter("title",request.getParameter("filter")).list();
-		.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
+		         .filter("title",request.getParameter("filter")).list();
+	//	.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
 		 // .filter("date >",dateMin).filter("date <",dateMax).list();
 		 
 		  for (Advertisement advertisement : advertisements2) {
