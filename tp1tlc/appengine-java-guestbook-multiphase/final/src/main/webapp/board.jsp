@@ -101,8 +101,8 @@
   <div id="resultMax" style="border:1px solid #999;color: white;">
   </div>
   </div>
-       <input name="dateMin" value="21-08-2017">
-       <input name="dateMax" value="21-09-2017">
+       <input name="dateMin" value="01-01-2000">
+       <input name="dateMax" value="01-01-2022">
                   <!--   <div align="center"> 0 <input type="range" name="priceMin" min="0" max="500" />500</div>
                      <div align="center"> 500 <input type="range" name="priceMax" min="500" max="10000" />10000</div>-->
                    
@@ -214,6 +214,7 @@ else
 		</div></tr> <%
 		}
 		   } catch (ParseException e) {
+			   System.err.println("crash lors du parsing ici");   
 	      e.printStackTrace();
 	 }
 
@@ -235,8 +236,12 @@ else
 			 </br>
     		 <button type="submit" class="btn btn-danger">Remove All Visible Entry</button>
 	  			
-	  			  <input type="hidden" name="filter" value="<% out.print(request.getParameter("filter")); %>"/>
-	  			 
+	  			  <input type="hidden" name="filter" value="<%   out.print(request.getParameter("filter")); %>"/>
+	  			  <input type="hidden" name="priceMin" value="<%   out.print(request.getParameter("priceMin")); %>"/>
+	  			  <input type="hidden" name="priceMax" value="<%   out.print(request.getParameter("priceMax")); %>"/>
+	  			  <input type="hidden" name="dateMin" value="<%   out.print(request.getParameter("dateMin")); %>"/>
+	  			  <input type="hidden" name="dateMax" value="<%   out.print(request.getParameter("dateMax")); %>"/>
+	  			  
    		 </div>
 	</form>
     
