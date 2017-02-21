@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.googlecode.objectify.ObjectifyService;
 
 
-
+//Filter Servlet
 public class FilterServlet  extends HttpServlet  {
 	  // Process the http POST of the form
 	@Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
 		  System.err.println("servlet Filter");
-		  // Find out who the user is.
+		  // get the parameters from the request.
 		  String boardName=req.getParameter("boardName");
 		  String filter=req.getParameter("filter");
 		  String priceMin=req.getParameter("priceMin");
@@ -29,14 +29,14 @@ public class FilterServlet  extends HttpServlet  {
 		  
 		 
 		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax+"&dateMin="+dateMin+"&dateMax="+dateMax);
-		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
+		 
 	  }
-	
+	 // Process the http GET of the form
 	@Override
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
 		  System.err.println("servlet Filter");
-		  // Find out who the user is.
+		  // get the parameters from the request.
 		  String boardName=req.getParameter("boardName");
 		  String filter=req.getParameter("filter");
 		  String priceMin=req.getParameter("priceMin");
@@ -46,8 +46,7 @@ public class FilterServlet  extends HttpServlet  {
 		  
 		 
 		  resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter+"&priceMin="+priceMin+"&priceMax="+priceMax+"&dateMin="+dateMin+"&dateMax="+dateMax);
-		  //resp.sendRedirect("/board.jsp?boardName=" + boardName+"&filter="+filter);
-	  }
+	}
 	  
 }
 

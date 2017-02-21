@@ -33,10 +33,6 @@ import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Form Handling Servlet
- * Most of the action for this sample is in webapp/guestbook.jsp, which displays the
- * {@link Greeting}'s. This servlet has one method
- * {@link #doPost(<#HttpServletRequest req#>, <#HttpServletResponse resp#>)} which takes the form
- * data and saves it.
  */
 public class SignAdvertisementServlet extends HttpServlet {
 
@@ -75,6 +71,9 @@ public class SignAdvertisementServlet extends HttpServlet {
 			    resp.sendRedirect("/board.jsp?boardName=" + boardName);
 			  
 	  }
+  
+  // Process the http POST of the form
+  @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    Advertisement advertisement;
 

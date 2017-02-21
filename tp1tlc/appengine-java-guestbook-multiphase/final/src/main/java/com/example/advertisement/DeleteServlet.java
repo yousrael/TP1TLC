@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.googlecode.objectify.ObjectifyService;
 
 
-
+//Delete Servlet
 public class DeleteServlet  extends HttpServlet  {
 
 	  /**
@@ -25,7 +25,7 @@ public class DeleteServlet  extends HttpServlet  {
 	   
 			
 	   System.err.println("Servlet Delete POST");
-	   // Find out who the user is.
+	   // get the parameters from the request.
 	   String boardName=req.getParameter("boardName");
 	   String filter=req.getParameter("filter");
 	   double priceMin=Double.parseDouble(req.getParameter("priceMin"));
@@ -36,25 +36,17 @@ public class DeleteServlet  extends HttpServlet  {
 		   SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy"); 
 	       Date dateMin = formatter.parse(req.getParameter("dateMax")); 
 	       Date dateMax = formatter.parse(req.getParameter("dateMin")); 
-	       System.out.println("dateMin===========>"+dateMin);
-	       System.out.println("dateMAX===========>"+dateMax);
 		   List<Advertisement> advertisements = ObjectifyService.ofy()
 			          .load()
 			          .type(Advertisement.class)
 			          .filter("price >", priceMin).filter("price <", priceMax)
 			          .list();
-		   //Objectify ofy=ObjectifyService.begin();
-		 
-		  // Query q= ((Object) ofy).query(Advertisement.class).filter("filter",filter).get();
-		   
+		  
 		   System.out.println("Database Loaded");
 		      
 		   for (Advertisement advertisement : advertisements) {
 			   System.out.println("looking for delete at : "+advertisement.title);
 			   if(advertisement.title.contains(filter)){
-				   System.out.println("dateMin===========>"+dateMin);
-			       System.out.println("dateMAX===========>"+dateMax);
-//				   System.out.println("date"+advertisement.date+" dmin"+ddateMin+" dmax"+ddateMax);
 				  if(advertisement.date.before(dateMin) && advertisement.date.after(dateMax)){ 
 			    
 					   ObjectifyService.ofy().delete().entity(advertisement);
@@ -72,13 +64,14 @@ public class DeleteServlet  extends HttpServlet  {
 		}
 
 	  }
+	// Process the http GET of the form
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
 
 		 System.err.println("Servlet Delete GET");
-		   // Find out who the user is.
+		 // get the parameters from the request.
 		   String boardName=req.getParameter("boardName");
 		   String filter=req.getParameter("filter");
 		   double priceMin=Double.parseDouble(req.getParameter("priceMin"));
@@ -96,10 +89,6 @@ public class DeleteServlet  extends HttpServlet  {
 				          .type(Advertisement.class)
 				          .filter("price >", priceMin).filter("price <", priceMax)
 				          .list();
-			   //Objectify ofy=ObjectifyService.begin();
-			 
-			  // Query q= ((Object) ofy).query(Advertisement.class).filter("filter",filter).get();
-			   
 			   System.out.println("Database Loaded");
 			      
 			   for (Advertisement advertisement : advertisements) {
@@ -107,7 +96,6 @@ public class DeleteServlet  extends HttpServlet  {
 				   if(advertisement.title.contains(filter)){
 					   System.out.println("dateMin===========>"+dateMin);
 				       System.out.println("dateMAX===========>"+dateMax);
-//					   System.out.println("date"+advertisement.date+" dmin"+ddateMin+" dmax"+ddateMax);
 					  if(advertisement.date.before(dateMin) && advertisement.date.after(dateMax)){ 
 				    
 						   ObjectifyService.ofy().delete().entity(advertisement);
