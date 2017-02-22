@@ -14,6 +14,7 @@ import com.googlecode.objectify.ObjectifyService;
 //Delete Servlet
 public class DeleteServlet  extends HttpServlet  {
 
+	static boolean debug = false;
 	  /**
 	 * 
 	 */
@@ -24,7 +25,7 @@ public class DeleteServlet  extends HttpServlet  {
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
 			
-	   System.err.println("Servlet Delete POST");
+	if(debug)System.err.println("Servlet Delete POST");
 	   // get the parameters from the request.
 	   double priceMin;
 	   double priceMax;
@@ -58,7 +59,7 @@ public class DeleteServlet  extends HttpServlet  {
 			          .filter("price >", priceMin).filter("price <", priceMax)
 			          .list();
 		  
-		   System.out.println("Database Loaded");
+		   if(debug)System.out.println("Database Loaded");
 		      
 		   for (Advertisement advertisement : advertisements) {
 			   System.out.println("looking for delete at : "+advertisement.title + " $"+advertisement.price+" "+advertisement.date);
@@ -66,7 +67,7 @@ public class DeleteServlet  extends HttpServlet  {
 			   if(advertisement.title.contains(filter) || filter.contentEquals("null")){// titre contient le mot ou filtre vide car on suprime tout
 				  if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){
 					   ObjectifyService.ofy().delete().entity(advertisement);
-					   System.out.println("remove : "+advertisement.title);
+					   if(debug)System.out.println("remove : "+advertisement.title);
 				   }
 				  
 			   }
@@ -74,7 +75,7 @@ public class DeleteServlet  extends HttpServlet  {
 		   
 		   resp.sendRedirect("/boardForDelete.jsp?boardName=" + boardName);
 		} catch (Exception e) {
-			System.err.println("plouf !!");
+			if(debug)System.err.println("plouf !!");
 			e.printStackTrace();
 			// TODO: handle exception
 		}
@@ -84,36 +85,49 @@ public class DeleteServlet  extends HttpServlet  {
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-
-		 System.err.println("Servlet Delete GET");
-		 // get the parameters from the request.
-		   String boardName=req.getParameter("boardName");
-		   String filter=req.getParameter("filter");
-		   double priceMin=Double.parseDouble(req.getParameter("priceMin"));
-		   double priceMax=Double.parseDouble(req.getParameter("priceMax"));
-		  
 		   
+		
+		if(debug)System.err.println("Servlet Delete POST");
+		   // get the parameters from the request.
+		   double priceMin;
+		   double priceMax;
+		   String boardName="";
+		   String filter= "";
+		   Date dateMin = null; 
+	       Date dateMax = null; 
+		   try {
+			   priceMin=Double.parseDouble(req.getParameter("priceMin"));
+			   priceMax=Double.parseDouble(req.getParameter("priceMax"));
+		   } catch (Exception e) {
+			   priceMin = 0;
+			   priceMax = 10000;
+		   }
 		   try {
 			   SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy"); 
-		       Date dateMin = formatter.parse(req.getParameter("dateMin")); 
-		       Date dateMax = formatter.parse(req.getParameter("dateMax")); 
-		       System.out.println("dateMin===========>"+dateMin);
-		       System.out.println("dateMAX===========>"+dateMax);
+			   dateMin = formatter.parse(req.getParameter("dateMin")); 
+			   dateMax = formatter.parse(req.getParameter("dateMax")); 
+		   } catch (Exception e) {
+			   dateMin = new Date(100, 01, 01);
+			   dateMax = new Date(120, 01, 01);
+		   }
+		   
+		   try {
+			   boardName=req.getParameter("boardName");
+			   filter=req.getParameter("filter");
+			   
 			   List<Advertisement> advertisements = ObjectifyService.ofy()
 				          .load()
 				          .type(Advertisement.class)
 				          .filter("price >", priceMin).filter("price <", priceMax)
 				          .list();
-			   System.out.println("Database Loaded");
+			  
+			   if(debug)System.out.println("Database Loaded");
 			      
 			   for (Advertisement advertisement : advertisements) {
-				   System.out.println("looking for delete at : "+advertisement.title);
-				   if(advertisement.title.contains(filter)){
-					   System.out.println("dateMin===========>"+dateMin);
-				       System.out.println("dateMAX===========>"+dateMax);
-					  if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){ 
-				    
+				   if(debug)System.out.println("looking for delete at : "+advertisement.title + " $"+advertisement.price+" "+advertisement.date);
+//				   System.out.println("filter: "+filter+" datemin & max: "+dateMin+" "+dateMax+" priceMin & max: "+priceMin+" "+priceMax);
+				   if(advertisement.title.contains(filter) || filter.contentEquals("null")){// titre contient le mot ou filtre vide car on suprime tout
+					  if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){
 						   ObjectifyService.ofy().delete().entity(advertisement);
 						   System.out.println("remove : "+advertisement.title);
 					   }
@@ -121,12 +135,13 @@ public class DeleteServlet  extends HttpServlet  {
 				   }
 				  }
 			   
-			   resp.sendRedirect("/test.jsp?boardName=" + boardName);
+			   resp.sendRedirect("/boardForDelete.jsp?boardName=" + boardName);
 			} catch (Exception e) {
-				System.err.println("plouf !!");
+				if(debug)System.err.println("plouf !!");
 				e.printStackTrace();
 				// TODO: handle exception
 			}
-}
+
+		  }
 }
 

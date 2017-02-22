@@ -14,11 +14,12 @@ import com.googlecode.objectify.ObjectifyService;
 
 //Filter Servlet
 public class FilterServlet  extends HttpServlet  {
+	static boolean debug = false;
 	  // Process the http POST of the form
 	@Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
-		  System.err.println("servlet Filter");
+		if(debug)System.err.println("servlet Filter");
 		  // get the parameters from the request.
 		  String boardName=req.getParameter("boardName");
 		  String filter=req.getParameter("filter");
@@ -35,7 +36,7 @@ public class FilterServlet  extends HttpServlet  {
 	@Override
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	   
-		  System.err.println("servlet Filter");
+		if(debug)System.err.println("servlet Filter");
 		  // get the parameters from the request.
 		  String boardName=req.getParameter("boardName");
 		  String filter=req.getParameter("filter");
