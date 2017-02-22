@@ -146,7 +146,7 @@
         <table class="table table-hover">
           <tbody id="myTable">
 <%
-	// Look at all of our greetings
+	// Look at all of our advertisments
 		int nAdvertisement = 0;
 
 		if (request.getParameter("filter") == null) {
@@ -184,9 +184,9 @@
 				Date dateMin = formatter.parse(request.getParameter("dateMin"));
 				Date dateMax = formatter.parse(request.getParameter("dateMax"));
 				List<Advertisement> advertisements2 = ObjectifyService.ofy().load().type(Advertisement.class) // We want only Advertisements
-// 					.filter("title", request.getParameter("filter")).list();
+ 					//.filter("title", request.getParameter("filter")).list();
 					.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
-// 					.filter("date >",dateMin).filter("date <",dateMax).list();
+					//.filter("date >",dateMin).filter("date <",dateMax).list();
 
 				for (Advertisement advertisement : advertisements2) {
 
