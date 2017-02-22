@@ -26,16 +26,32 @@ public class DeleteServlet  extends HttpServlet  {
 			
 	   System.err.println("Servlet Delete POST");
 	   // get the parameters from the request.
-	   String boardName=req.getParameter("boardName");
-	   String filter=req.getParameter("filter");
-	   double priceMin=Double.parseDouble(req.getParameter("priceMin"));
-	   double priceMax=Double.parseDouble(req.getParameter("priceMax"));
-	  
-	   
+	   double priceMin;
+	   double priceMax;
+	   String boardName="";
+	   String filter= "";
+	   Date dateMin = null; 
+       Date dateMax = null; 
+	   try {
+		   priceMin=Double.parseDouble(req.getParameter("priceMin"));
+		   priceMax=Double.parseDouble(req.getParameter("priceMax"));
+	   } catch (Exception e) {
+		   priceMin = 0;
+		   priceMax = 10000;
+	   }
 	   try {
 		   SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy"); 
-	       Date dateMin = formatter.parse(req.getParameter("dateMax")); 
-	       Date dateMax = formatter.parse(req.getParameter("dateMin")); 
+		   dateMin = formatter.parse(req.getParameter("dateMin")); 
+		   dateMax = formatter.parse(req.getParameter("dateMax")); 
+	   } catch (Exception e) {
+		   dateMin = new Date(100, 01, 01);
+		   dateMax = new Date(120, 01, 01);
+	   }
+	   
+	   try {
+		   boardName=req.getParameter("boardName");
+		   filter=req.getParameter("filter");
+		   
 		   List<Advertisement> advertisements = ObjectifyService.ofy()
 			          .load()
 			          .type(Advertisement.class)
@@ -45,10 +61,10 @@ public class DeleteServlet  extends HttpServlet  {
 		   System.out.println("Database Loaded");
 		      
 		   for (Advertisement advertisement : advertisements) {
-			   System.out.println("looking for delete at : "+advertisement.title);
-			   if(advertisement.title.contains(filter)){
-				  if(advertisement.date.before(dateMin) && advertisement.date.after(dateMax)){ 
-			    
+			   System.out.println("looking for delete at : "+advertisement.title + " $"+advertisement.price+" "+advertisement.date);
+//			   System.out.println("filter: "+filter+" datemin & max: "+dateMin+" "+dateMax+" priceMin & max: "+priceMin+" "+priceMax);
+			   if(advertisement.title.contains(filter) || filter.contentEquals("null")){// titre contient le mot ou filtre vide car on suprime tout
+				  if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){
 					   ObjectifyService.ofy().delete().entity(advertisement);
 					   System.out.println("remove : "+advertisement.title);
 				   }
@@ -80,8 +96,8 @@ public class DeleteServlet  extends HttpServlet  {
 		   
 		   try {
 			   SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy"); 
-		       Date dateMin = formatter.parse(req.getParameter("dateMax")); 
-		       Date dateMax = formatter.parse(req.getParameter("dateMin")); 
+		       Date dateMin = formatter.parse(req.getParameter("dateMin")); 
+		       Date dateMax = formatter.parse(req.getParameter("dateMax")); 
 		       System.out.println("dateMin===========>"+dateMin);
 		       System.out.println("dateMAX===========>"+dateMax);
 			   List<Advertisement> advertisements = ObjectifyService.ofy()
@@ -96,7 +112,7 @@ public class DeleteServlet  extends HttpServlet  {
 				   if(advertisement.title.contains(filter)){
 					   System.out.println("dateMin===========>"+dateMin);
 				       System.out.println("dateMAX===========>"+dateMax);
-					  if(advertisement.date.before(dateMin) && advertisement.date.after(dateMax)){ 
+					  if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){ 
 				    
 						   ObjectifyService.ofy().delete().entity(advertisement);
 						   System.out.println("remove : "+advertisement.title);

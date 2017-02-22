@@ -184,9 +184,9 @@
 				Date dateMin = formatter.parse(request.getParameter("dateMin"));
 				Date dateMax = formatter.parse(request.getParameter("dateMax"));
 				List<Advertisement> advertisements2 = ObjectifyService.ofy().load().type(Advertisement.class) // We want only Advertisements
-						.filter("title", request.getParameter("filter")).list();
-				//	.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
-				// .filter("date >",dateMin).filter("date <",dateMax).list();
+// 					.filter("title", request.getParameter("filter")).list();
+					.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
+// 					.filter("date >",dateMin).filter("date <",dateMax).list();
 
 				for (Advertisement advertisement : advertisements2) {
 
@@ -194,15 +194,18 @@
 					pageContext.setAttribute("advertisement_price", advertisement.price);
 					pageContext.setAttribute("advertisement_date", advertisement.date);
 
-					//if(advertisement.title.contains(request.getParameter("filter")) ){
-%> <tr>	<div class="advertisement">
-			<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
-			<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
-			<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
-			<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
-			<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
-		</div></tr> <%
- 	}
+					if(advertisement.title.contains(request.getParameter("filter"))){
+						 if(advertisement.date.before(dateMax) && advertisement.date.after(dateMin)){
+					%> 	<tr>	<div class="advertisement">
+							<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
+							<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
+							<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
+							<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
+							<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
+						</div></tr> <%
+						 }
+ 					}
+ 				}
  			} catch (ParseException e) {
  				System.err.println("crash lors du parsing ici");
  				e.printStackTrace();
