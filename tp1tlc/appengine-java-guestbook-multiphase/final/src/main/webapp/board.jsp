@@ -67,15 +67,15 @@
                         <a href="#page-top"></a>
                     </li>
 					<%
-					    String boardName = request.getParameter("boardName");
-					    if (boardName == null) {
-					        boardName = "default";
-					    }
-					    pageContext.setAttribute("boardName", boardName);
-					    UserService userService = UserServiceFactory.getUserService();
-					    User user = userService.getCurrentUser();
-					    if (user != null) {
-					        pageContext.setAttribute("user", user);
+						String boardName = request.getParameter("boardName");
+						if (boardName == null) {
+							boardName = "default";
+						}
+						pageContext.setAttribute("boardName", boardName);
+						UserService userService = UserServiceFactory.getUserService();
+						User user = userService.getCurrentUser();
+						if (user != null) {
+							pageContext.setAttribute("user", user);
 					%>
 						<button class="btn btn-danger" onclick="location.href='<%= userService.createLogoutURL(request.getRequestURI()) %>'" type="button">Sign out</button>
 					<%
@@ -121,54 +121,51 @@
         <div class="container">
 
 <%-- //[START datastore]--%>
-<%
-    // Create the correct Ancestor key
-      Key<Board> board = Key.create(Board.class, boardName);
+			<%
+				// Create the correct Ancestor key
+				Key<Board> board = Key.create(Board.class, boardName);
 
-    // Run an ancestor query to ensure we see the most up-to-date
-    // view of the Advertisements belonging to the selected Board.
-      List<Advertisement> advertisements = ObjectifyService.ofy()
-          .load()
-          .type(Advertisement.class) // We want only Advertisements
-        //  .ancestor(board)    // Anyone in this board
-         // .order("-date")       // Most recent first - date is indexed.
-         .limit(6)             // Only show 5 of them.
-          .list();
-     
-    if (advertisements.isEmpty()) {
-%>
-<p>Board '${fn:escapeXml(boardName)}' has no advertisement.</p>
-<%
-    } else
-    	 {
-%>
-<p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
+				// Run an ancestor query to ensure we see the most up-to-date
+				// view of the Advertisements belonging to the selected Board.
+				List<Advertisement> advertisements = ObjectifyService.ofy().load().type(Advertisement.class) // We want only Advertisements
+						//  .ancestor(board)    // Anyone in this board
+						// .order("-date")       // Most recent first - date is indexed.
+						.limit(6) // Only show 5 of them.
+						.list();
+
+				if (advertisements.isEmpty()) {
+			%>
+			<p>Board '${fn:escapeXml(boardName)}' has no advertisement.</p>
+			<%
+				} else {
+			%>
+			<p>Advertisement in Board '${fn:escapeXml(boardName)}'.</p>
 	<div class="container">
     <div class="row">
       <div class="table-responsive">
         <table class="table table-hover">
           <tbody id="myTable">
 <%
-      // Look at all of our greetings
-      	int nAdvertisement = 0;
-        
-        	if(request.getParameter("filter")==null){
-        		for (Advertisement advertisement : advertisements) {
-        	nAdvertisement++;
-            pageContext.setAttribute("advertisement_title", advertisement.title);
-            pageContext.setAttribute("advertisement_price", advertisement.price);
-            pageContext.setAttribute("advertisement_date", advertisement.date);
-            String author;
-            if (advertisement.author_email == null) {
-                author = "An anonymous person";
-            } else {
-                author = advertisement.author_email;
-                String author_id = advertisement.author_id;
-                if (user != null && user.getUserId().equals(author_id)) {
-                    author += " (You)";
-                }
-            }
-            pageContext.setAttribute("advertisement_user", author);
+	// Look at all of our greetings
+		int nAdvertisement = 0;
+
+		if (request.getParameter("filter") == null) {
+			for (Advertisement advertisement : advertisements) {
+				nAdvertisement++;
+				pageContext.setAttribute("advertisement_title", advertisement.title);
+				pageContext.setAttribute("advertisement_price", advertisement.price);
+				pageContext.setAttribute("advertisement_date", advertisement.date);
+				String author;
+				if (advertisement.author_email == null) {
+					author = "An anonymous person";
+				} else {
+					author = advertisement.author_email;
+					String author_id = advertisement.author_id;
+					if (user != null && user.getUserId().equals(author_id)) {
+						author += " (You)";
+					}
+				}
+				pageContext.setAttribute("advertisement_user", author);
 %>
 
               <tr>	<div class="advertisement">
@@ -179,46 +176,41 @@
 		<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
 	</div></tr>
 <%
-        } 
-        	}
-else 
- {
-		
-	 try {
-		 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	     Date dateMin = formatter.parse(request.getParameter("dateMin"));
-	     Date dateMax = formatter.parse(request.getParameter("dateMax"));
-		  List<Advertisement> advertisements2= ObjectifyService.ofy()
-		          .load()
-		          .type(Advertisement.class) // We want only Advertisements
-		         .filter("title",request.getParameter("filter")).list();
-	//	.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
-		 // .filter("date >",dateMin).filter("date <",dateMax).list();
-		 
-		  for (Advertisement advertisement : advertisements2) {
-		  
-		pageContext.setAttribute("advertisement_title", advertisement.title);
-	    pageContext.setAttribute("advertisement_price", advertisement.price);
-	   pageContext.setAttribute("advertisement_date", advertisement.date);
-	    
-		//if(advertisement.title.contains(request.getParameter("filter")) ){
-			%> <tr>	<div class="advertisement">
+	} 
+		} else {
+
+			try {
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				Date dateMin = formatter.parse(request.getParameter("dateMin"));
+				Date dateMax = formatter.parse(request.getParameter("dateMax"));
+				List<Advertisement> advertisements2 = ObjectifyService.ofy().load().type(Advertisement.class) // We want only Advertisements
+						.filter("title", request.getParameter("filter")).list();
+				//	.filter("price >", Double.parseDouble(request.getParameter("priceMin"))).filter("price <", Double.parseDouble(request.getParameter("priceMax"))).list();
+				// .filter("date >",dateMin).filter("date <",dateMax).list();
+
+				for (Advertisement advertisement : advertisements2) {
+
+					pageContext.setAttribute("advertisement_title", advertisement.title);
+					pageContext.setAttribute("advertisement_price", advertisement.price);
+					pageContext.setAttribute("advertisement_date", advertisement.date);
+
+					//if(advertisement.title.contains(request.getParameter("filter")) ){
+%> <tr>	<div class="advertisement">
 			<h1><b>Advertisement n°<%=nAdvertisement%></b></h1>
 			<p><b>Title  : </b>${fn:escapeXml(advertisement_title)}</p>
 			<p><b>Price  : </b>${fn:escapeXml(advertisement_price)} $</p>
 			<p><b>Date   : </b>${fn:escapeXml(advertisement_date)}</p>
 			<p><b>Author : </b>${fn:escapeXml(advertisement_user)}</p>
 		</div></tr> <%
-		}
-		   } catch (ParseException e) {
-			   System.err.println("crash lors du parsing ici");   
-	      e.printStackTrace();
-	 }
+ 	}
+ 			} catch (ParseException e) {
+ 				System.err.println("crash lors du parsing ici");
+ 				e.printStackTrace();
+ 			}
 
-    }
-	}
-	
-%>
+ 		}
+ 	}
+ %>
           </tbody>
         </table>   
       </div>
