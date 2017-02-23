@@ -128,9 +128,7 @@
 				// Run an ancestor query to ensure we see the most up-to-date
 				// view of the Advertisements belonging to the selected Board.
 				List<Advertisement> advertisements = ObjectifyService.ofy().load().type(Advertisement.class) // We want only Advertisements
-						//  .ancestor(board)    // Anyone in this board
-						// .order("-date")       // Most recent first - date is indexed.
-						.limit(6) // Only show 5 of them.
+						.limit(10) // Only show 10 of them.
 						.list();
 
 				if (advertisements.isEmpty()) {
