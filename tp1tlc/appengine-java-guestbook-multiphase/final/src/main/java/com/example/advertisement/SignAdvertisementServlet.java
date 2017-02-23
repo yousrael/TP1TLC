@@ -35,6 +35,7 @@ import com.googlecode.objectify.ObjectifyService;
  * Form Handling Servlet
  */
 public class SignAdvertisementServlet extends HttpServlet {
+	static boolean debug = false;
 
   // Process the http POST of the form
   @Override
@@ -60,7 +61,8 @@ public class SignAdvertisementServlet extends HttpServlet {
 	    } catch (ParseException e) {
 			resp.sendRedirect("/board.jsp?boardName=" + boardName);
 		}
-	    System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
+	    if(debug)
+	    	System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
 			if (user != null) {
 			      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
 			    } else {
@@ -96,7 +98,8 @@ public class SignAdvertisementServlet extends HttpServlet {
 	    } catch (ParseException e) {
 			resp.sendRedirect("/board.jsp?boardName=" + boardName);
 		}
-	    System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
+	    if(debug)
+	    	System.out.println("title: "+advertisementTitle+" price: "+advertisementPrice+" date: "+advertisementDate);
 			if (user != null) {
 			      advertisement = new Advertisement(user.getEmail(),user.getUserId(), advertisementTitle,advertisementPrice,advertisementDate);
 			    } else {
