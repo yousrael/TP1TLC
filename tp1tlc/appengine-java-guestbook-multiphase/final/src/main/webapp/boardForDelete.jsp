@@ -149,7 +149,7 @@
         <table class="table table-hover">
           <tbody id="myTable">
 <%
-      // Look at all of our greetings
+      // Look at all of our advertisements
       	int nAdvertisement = 0;
         
         	
