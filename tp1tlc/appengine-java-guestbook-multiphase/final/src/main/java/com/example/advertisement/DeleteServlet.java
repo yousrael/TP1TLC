@@ -73,7 +73,7 @@ public class DeleteServlet  extends HttpServlet  {
 			   }
 			  }
 		   
-		   resp.sendRedirect("/boardForDelete.jsp?boardName=" + boardName);
+		   resp.sendRedirect("/board.jsp");
 		} catch (Exception e) {
 			if(debug)System.err.println("plouf !!");
 			e.printStackTrace();
@@ -135,7 +135,7 @@ public class DeleteServlet  extends HttpServlet  {
 				   }
 				  }
 			   
-			   resp.sendRedirect("/boardForDelete.jsp?boardName=" + boardName);
+			   resp.sendRedirect("/board.jsp");
 			} catch (Exception e) {
 				if(debug)System.err.println("plouf !!");
 				e.printStackTrace();
